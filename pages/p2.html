@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Druga podstrona</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<ul class="nav justify-content-center bg-light">
+  <li class="nav-item">
+    <a class="nav-link" href="index.html">Main</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="p1.html">Page 1</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="p2.html">Page 2</a>
+  </li>
+</ul>
+
+<div class="container">
+     <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-center">A to jest druga podstrona (dotyczy zadania 3)</h1>
+        <h4 class="text-center">To jest kod skryptu "server4.pl"</h4>
+      </div>
+    </div>
+    <div class="row">
+    <div class="col-md-12">
+      <pre><code class="language-pascal">
+            #!/usr/bin/perl
+		use HTTP::Daemon;
+		use HTTP::Response;
+		use HTTP::Status;
+
+		my $d = HTTP::Daemon->new(
+			LocalAddr => 'localhost',
+			LocalPort => 5002,
+		    ) || die;
+
+		 print "Please contact me at: <URL:", $d->url, ">\n";
+
+		while (my $c = $d->accept) {
+		    while (my $resp = $c->get_request) {
+			    my $payload = $resp->as_string;
+			    my $resp = HTTP::Response->new(200);
+			    $resp->header("Content-Type" => "text/text");
+			    $resp->content($payload);
+			    $c->send_response($resp);
+		    }
+		    $c->close;
+		    undef($c);
+		}
+
+      </code></pre>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-md-12">
+        <h4 class="text-center">W odpowiedzi na żądanie, tworzę odpowiedź 200 OK oraz ustawiam typ MIME odpowiedzi na 					 text/text. Zawartością odpowiedzi jest treść żądania w formie napisu.
+				 Po przygotowaniu, odpowiedź jest odsyłana do klienta."</h4>
+      </div>
+    </div>
+    <div class="row">
+    <div class="col-md-12">
+      <pre><code class="language-pascal">
+                GET / HTTP/1.1
+		Connection: keep-alive
+		Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+		Accept-Encoding: gzip, deflate
+		Accept-Language: en-US,en;q=0.5
+		Host: 127.0.0.1:5001
+		If-Modified-Since: Wed, 03 Jun 2020 12:34:02 GMT
+		User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0
+		Upgrade-Insecure-Requests: 1
+      </code></pre>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-md-12">
+        <img src="screen2.png" class="img-fluid" alt="Responsive image">
+		<h4 class="text-center">Przechwytywanie komunikatów za pmocą programu Whireshark:</h4>
+		<h4 class="text-center">Port przeglądarki: 57768, Port serwera: 5001</h4>
+		<h4 class="text-center">-wywołanie strony głównej</h4>
+		<h4 class="text-center">-wysłanie żądania GET</h4>
+		<h4 class="text-center">-otrzymanie odpowiedzi 200 OK</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <img src="screen3.png" class="img-fluid" alt="Responsive image">
+		<h4 class="text-center">Za pomocą programu curl wysłałem dwa żądania PUT i GET, jak widać na powyższym 						 zdjęciu otrzymałem poprawne odpowiedzi</h4>
+      </div>
+    </div>
+</div>
+
+</body>
+</html>

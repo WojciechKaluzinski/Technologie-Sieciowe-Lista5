@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Hello World</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center">Hello World</h1>
+      <h4 class="text-center">To jest kod skryptu "server3.pl"</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <pre><code class="language-pascal">
+          #!/usr/bin/perl
+	  use HTTP::Daemon;
+	  use HTTP::Status;  
+
+
+	  my $d = HTTP::Daemon->new(
+		   LocalAddr => 'localhost',
+		   LocalPort => 5004,
+	       )|| die;
+	  
+	  print "Please contact me at: <URL:", $d->url, ">\n";
+
+
+	  while (my $c = $d->accept) {
+	      while (my $r = $c->get_request) {
+		  if ($r->method eq 'GET') {
+		      
+		      $file_s= "pages/helloworld.html";    
+		      $c->send_file_response($file_s);
+
+		  }
+		  else {
+		      $c->send_error(RC_FORBIDDEN)
+		  }
+
+	      }
+	      $c->close;
+	      undef($c);
+	  }
+      </code></pre>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h3 class="text-center">Jeśli to czytasz, to znaczy, że nawiązałeś połączenie za pomocą przeglądarki internetowej</h3>
+      <h4 class="text-center">Skrypt ten jest prostym serwerem HTTP, odpowiadającym na żądania GET i zwracający wtedy plik pages/helloworld.html, w przeciwnym razie zwraca błąd 403 Forbidden</h4>
+    </div>
+  </div>
+</div>
+
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</html>

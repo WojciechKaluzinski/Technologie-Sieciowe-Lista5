@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Strona tytułowa</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  
+</head>
+<body>
+
+	<ul class="nav justify-content-center bg-light">
+	  <li class="nav-item">
+	    <a class="nav-link active" href="index.html">Main</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="p1.html">Page 1</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="p2.html">Page 2</a>
+	  </li>
+	</ul>
+	
+<div class="container">
+     <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-center">Stona Tytułowa</h1>
+        <h4 class="text-center">To jest kod skryptu "server5.pl"</h4>
+      </div>
+    </div>
+    <div class="row">
+    <div class="col-md-12">
+      <pre><code class="language-pascal">
+           	#!/usr/bin/perl
+		use HTTP::Daemon;
+		use HTTP::Status;  
+		use IO::File;
+
+		my $d = HTTP::Daemon->new(
+			LocalAddr => 'localhost',
+			LocalPort => 5003,
+			Reuse => 1,
+		    ) || die;
+
+		 print "Please contact me at: <URL:", $d->url, ">\n";
+
+		while (my $c = $d->accept) {
+		    while (my $r = $c->get_request) {
+			if ($r->method eq 'GET') {
+			    my $uri = $r->uri;
+			    if ($uri eq "/") {
+				$uri = "/index.html";
+			    }
+
+			    my $file_r = "pages" . $uri;
+
+			    if ( -e $file_r) {
+				$c->send_file_response($file_r);
+			    } else {
+				$c->send_error(RC_NOT_FOUND);
+			    }
+			}
+			else {
+			    $c->send_error(RC_FORBIDDEN)
+			}
+		    }
+		    $c->close;
+		    undef($c);
+		}
+      </code></pre>
+    </div>
+  </div>
+</div>
+</body>
+</html>
